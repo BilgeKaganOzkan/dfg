@@ -1,27 +1,27 @@
 from flask import Flask, request, Response
 from zeep import Client
+from zeep.helpers import serialize_object
+from currency import *
 
 app = Flask(__name__)
 
-# WSDL dosyasını yükle
-wsdl_url = 'currency.wsdl'  # WSDL dosyasının URL'si
+wsdl_url = 'currency.wsdl'
 client = Client(wsdl=wsdl_url)
 
-# SOAP endpoint'i
-@app.route('/ws', methods=['POST'])
+@app.route('/ws', methods=['POST', 'GET'])
 def soap():
-    # Gelen SOAP isteğini al
-    soap_request = request.data
-    
-    # SOAP isteğini işle
-    # Zeep kullanarak SOAP isteğini işleyebilirsiniz
+    soap_request = request.data.decode('utf-8')
+    request_object = CreateFromDocument(soap_request)
+    country = request_object.country
+    print(request_object)
+    country = request_object['country']
+    print(country)
+
     soap_response = client.service.GetCurrencyByCountry(soap_request)
     
-    # SOAP yanıtını oluştur
     soap_response = Response(soap_response, content_type='application/xml')
     
-    # SOAP yanıtını gönder
     return soap_response
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, port=8080)
