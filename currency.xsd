@@ -1,0 +1,73 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://is550.soap.com"
+           targetNamespace="http://is550.soap.com"
+           elementFormDefault="qualified">
+
+    <xs:element name="GetCurrencyByCountryRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="country" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetCurrencyByCountryRequestFault">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="country" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetCurrencyByCountryResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="currency" type="tns:currency"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetCurrencyByRatingRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="rating" type="tns:rating"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="GetCurrencyByRatingResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="currency" type="tns:currency" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="countryFaultType">
+        <xs:sequence>
+            <xs:element name="errcode" type="xs:string"/>
+            <xs:element name="errtext" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="countryFault" type="tns:countryFaultType">
+    </xs:element>
+
+    <xs:complexType name="currency">
+        <xs:sequence>
+            <xs:element name="shortName" type="xs:string"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="currentValue" type="xs:double"/>
+            <xs:element name="rating" type="tns:rating"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="rating">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="High"/>
+            <xs:enumeration value="Moderate"/>
+            <xs:enumeration value="Low"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

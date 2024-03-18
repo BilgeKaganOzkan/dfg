@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://is550.soap.com"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  name="CurrencyService"
+                  targetNamespace="http://is550.soap.com">
+
+    <wsdl:types>
+        <xsd:schema>
+            <xsd:import namespace="http://is550.soap.com" schemaLocation="currency.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    
+    <wsdl:message name="GetCurrencyByCountryRequest">
+        <wsdl:part name="countryRequest" element="tns:GetCurrencyByCountryRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="GetCurrencyByCountryRequestFault">
+        <wsdl:part name="countryRequest" element="tns:GetCurrencyByCountryRequestFault"/>
+    </wsdl:message>
+    <wsdl:message name="GetCurrencyByCountryResponse">
+        <wsdl:part name="countryResponse" element="tns:GetCurrencyByCountryResponse"/>
+    </wsdl:message>
+    <wsdl:message name="GetCurrencyByCountryFault">
+        <wsdl:part name="countryResponse" element="tns:countryFault"/>
+    </wsdl:message>
+    <wsdl:message name="GetCurrencyByRatingRequest">
+        <wsdl:part name="ratingRequest" element="tns:GetCurrencyByRatingRequest"/>
+    </wsdl:message>
+    <wsdl:message name="GetCurrencyByRatingResponse">
+        <wsdl:part name="ratingResponse" element="tns:GetCurrencyByRatingResponse"/>
+    </wsdl:message>
+
+    <wsdl:portType name="currencyPortType">
+        <wsdl:operation name="GetCurrencyByCountry">
+            <wsdl:input message="tns:GetCurrencyByCountryRequest"/>
+            <wsdl:output message="tns:GetCurrencyByCountryResponse"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetCurrencyByCountryWithError">
+            <wsdl:input message="tns:GetCurrencyByCountryRequestFault"/>
+            <wsdl:output message="tns:GetCurrencyByCountryResponse"/>
+            <wsdl:fault name="countryFault" message="tns:GetCurrencyByCountryFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="GetCurrencyByRating">
+            <wsdl:input message="tns:GetCurrencyByRatingRequest"/>
+            <wsdl:output message="tns:GetCurrencyByRatingResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="currencySOAP" type="tns:currencyPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="GetCurrencyByCountry">
+            <soap:operation soapAction="http://is550.soap.com/GetCurrencyByCountry"/>
+            <wsdl:input><soap:body use="literal"/> </wsdl:input>
+            <wsdl:output><soap:body use="literal"/> </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetCurrencyByCountryWithError">
+            <soap:operation soapAction="http://is550.soap.com/GetCurrencyByCountryWithError"/>
+            <wsdl:input><soap:body use="literal"/> </wsdl:input>
+            <wsdl:output><soap:body use="literal"/> </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="GetCurrencyByRating">
+            <soap:operation soapAction="http://is550.soap.com/GetCurrencyByRating"/>
+            <wsdl:input><soap:body use="literal"/> </wsdl:input>
+            <wsdl:output><soap:body use="literal"/> </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="CurrencyService">
+        <wsdl:port name="currencyServiceSOAP" binding="tns:currencySOAP">
+            <soap:address location="http://localhost:8080/ws"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
